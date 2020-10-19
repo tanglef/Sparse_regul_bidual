@@ -2,3 +2,15 @@
 __pycache__
 
 draft/*.pdf
+
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.xml
+*.gz
+*.toc

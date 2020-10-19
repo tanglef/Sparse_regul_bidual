@@ -1,0 +1,108 @@
+\documentclass{article}
+
+\usepackage{preamb}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[backend=biber,style=verbose,citetracker=true]{biblatex}
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}
+
+\graphicspath{{../images/}}
+\addbibresource{bibliography.bib}
+
+\author{Tanguy Lefort}
+\title{Title}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% Begin document - title page%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\begin{titlepage} 
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	
+	\center
+	
+	\textsc{\LARGE University of Montpellier}\\[1.5cm]
+	
+	\textsc{\Large Master 1 Biostatistics }\\[0.5cm] 
+	
+	\textsc{\large HMMA$307$ project}\\[0.5cm] 
+
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Whole title to put later}\\[0.4cm] 
+	
+	\HRule\\[1.5cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{By:}\\
+			Tanguy Lefort 
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Teacher: }\\
+			Joseph salmon\\
+		\end{flushright}
+	\end{minipage}
+	\vspace{2cm}
+	\vfill % Position the date 3/4 down the remaining page
+	
+	{\large 2020} 
+	\begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south] at (current page text area.south) {\includegraphics[scale=0.3]{Logo.pdf}};
+    \end{tikzpicture}	
+	 
+	%----------------------------------------------------------------------------------------
+	
+	\vfill 
+\end{titlepage}
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Introduction}
+
+The increasing................
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sections files
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Section 1}
+% file
+\section{Section 2}
+%file
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conclusion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Conclusion}
+
+In conclusion, the biregulariation method................
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%    Bibliography   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Bibliography}
+\nocite{*}
+\printbibliography
+
+
+\end{document}

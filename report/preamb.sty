@@ -1,0 +1,228 @@
+% Declare that this style file requires at least LaTeX version 2e.
+% some parts are based from https://github.com/josephsalmon/OrganizationFiles/
+\NeedsTeXFormat{LaTeX2e}
+
+% Provide the name of your page, the date it was last updated, and a comment about what it's used for
+\ProvidesPackage{preamb}[Tanguy Lefort]
+
+\RequirePackage[a4paper]{geometry}
+\RequirePackage{lmodern}
+
+\RequirePackage{hyperref}
+\RequirePackage{stmaryrd}
+\RequirePackage{mathrsfs}
+\RequirePackage{float}
+\RequirePackage{amsfonts}
+\RequirePackage{subcaption}
+\RequirePackage{graphicx}
+\RequirePackage{amsthm,amsmath,amssymb}
+\RequirePackage{color}
+\RequirePackage{cases}
+\RequirePackage{enumitem}
+\RequirePackage{caption}
+\RequirePackage{shellesc}
+\RequirePackage{listings}
+
+%%%%éviter veuves et orphelines%%%%
+\widowpenalty=10000
+\clubpenalty=10000
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \RequirePackage{color} or \RequirePackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=1000,                % start line enumeration with line 1000
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=R,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+%%%%En têtes et pieds de page%%%%
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{1pt}
+%\fancyhead[C]{} 
+%\fancyhead[L]{\rightmark}
+%\fancyhead[R]{}
+
+
+%\fancyfoot[C]{} 
+%\fancyfoot[L]{}
+%\fancyfoot[R]{\thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%tous les environnements numérotés de type théorème%%%%
+\theoremstyle{plain}
+\newtheorem{definition}{Definition}
+\newtheorem{exemple}{Exemple}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%définir une application%%%%%%%%%%%%%%%%%%
+
+\newcommand{\fonction}[5]{\begin{array}{lrcl}
+#1: & #2 & \longrightarrow & #3 \\
+    & #4 & \longmapsto & #5 \end{array}}
+    
+\newcommand{\application}[5]{\begin{array}{lrcl}
+ #1 & \overset{#2}{\longrightarrow} & #3 \\
+   #4 & \longmapsto & #5 \end{array}}
+   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%définir le contexte de la fonction%%%%%%%%%
+\newcommand{\fonct}[3]{\begin{array}{lrcl}
+#1: & #2 & \longrightarrow & #3
+\end{array}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%commande pour les intégrales celles de base sont trop longues%%%%
+\newcommand{\inte}[4][\mathrm{x}]{\displaystyle\int_{#2}^{#3}#4\ \mathrm{d#1}}
+\newcommand{\inteinf}[4][\mathrm{x}]{\displaystyle\underline{\int_{#2}^{#3}}#4\ \mathrm{d#1}}
+\newcommand{\intesup}[4][\mathrm{x}]{\displaystyle\bar{\int_{#2}^{#3}}#4\ \mathrm{d#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%facilités et rapidité dans l'écriture parce que la flemme vraiment%%%
+\newcommand*{\logten}{\mathop{\log_{10}}}
+\newcommand*{\ie}{\emph{ie}}
+\newcommand*{\card}{\mathrm{card}\,}%le petit \, mettra un petit espace élégant entre le symbole et la variable qui s'ajustera �  la perfection avec les parenthèses. Le tout en une commande pratique et facile �  emporter.
+\newcommand*{\id}{\mathrm{Id}\,}
+\newcommand*{\adh}{\mathrm{adh}\,}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}%imaginaire et image
+\renewcommand{\bar}[1]{\overline{#1}}
+\newcommand{\norme}[1]{\left\Vert #1\right\Vert}
+\newcommand*{\bb}[1]{\mathbb{#1}}
+\newcommand*{\n}[1]{n_{#1}\in\bb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\VV}{\mathbb{V}}
+\newcommand{\QQ}{\mathbb{Q}}
+\DeclareMathOperator{\cis}{cis}
+\DeclareMathOperator{\com}{com}
+\newcommand*{\spm}[2]{\left[#1 | #2\right]}
+\DeclareMathOperator{\mat}{Mat}
+\DeclareMathOperator{\Arg}{Arg}
+\newcommand*{\rg}{\mathrm{rg}\,}
+\newcommand{\vect}[1]{\overrightarrow{#1}} %utilisée �  partie de fin math12 j'en pouvais plus de marquer overrightarrow en entier et puis fuck it je suis lazy and I know it.
+\newcommand*{\discret}[2]{\llbracket #1;#2 \rrbracket}
+\newcommand\coords[3]{\begin{pmatrix}%pour coordonnées dans l'espace
+ #1 \\
+ #2 \\
+ #3 
+ \end{pmatrix}}
+\newcommand\coord[2]{\begin{pmatrix}%pour coordonnées dans l'espace
+ #1 \\
+ #2 
+ \end{pmatrix}}
+\newcommand{\ve}{\mathrm{vect}\,}
+\DeclareMathOperator{\Tr}{\mathrm{tr}\,}%pour la trace
+\newcommand*{\tr}[1]{{\vphantom{#1}}^{\mathit t}{#1}} %transposée avec espace qui s'adapte automatiquement. Et ouais !
+\newcommand*{\comp}[1]{{\vphantom{#1}}^{\mathit c}{#1}}%petit c du complémentaire
+\newcommand*{\abs}[1]{\left|#1\right|}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%%%% tikz et les graphs (hodge podge) %%%%%%%%%%%%%%%%%%%
+% Définition des nouvelles options xmin, xmax, ymin, ymax
+% Valeurs par défaut : -3, 3, -3, 3
+% \tikzset{
+% xmin/.store in=\xmin, xmin/.default=-3, xmin=-3,
+% xmax/.store in=\xmax, xmax/.default=3, xmax=3,
+% ymin/.store in=\ymin, ymin/.default=-3, ymin=-3,
+% ymax/.store in=\ymax, ymax/.default=3, ymax=3,
+% }
+% % Commande qui trace la grille entre (xmin,ymin) et (xmax,ymax)
+% \newcommand {\grille}
+% {\draw[help lines] (\xmin,\ymin) grid (\xmax,\ymax);}
+% % Commande \axes
+% \newcommand {\axes} {
+% \draw[->] (\xmin,0) -- (\xmax,0) node [right]{$x$};
+% \draw[->] (0,\ymin) -- (0,\ymax) node [right] {$y$};
+% }
+% \newcommand {\axesneutres} {
+% \draw[->] (\xmin,0) -- (\xmax,0) node [right]{};
+% \draw[->] (0,\ymin) -- (0,\ymax) node [right] {};
+% }
+% % Commande qui limite l?affichage   (xmin,ymin) et (xmax,ymax)
+% \newcommand {\fenetre}
+% {\clip (\xmin,\ymin) rectangle (\xmax,\ymax);}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%diagrammes de Venn E A F (ne pas oublier la commande fill avant%%%%
+% \newcommand{\E}{(-4,-1) rectangle (4,4) node [black, very thick,above right] at (-4,-1) {$E$}}
+% \newcommand{\A}{(0,0) ++(135:2) circle (2) node[black,very thick] at (-2.5,1.5){$A$}}
+% \newcommand{\B}{(0,0) ++(45:2) circle (2)node[black,very thick] at (2.5,2){$B$}}
+% \newcommand{\AUB}{(0,0) arc(-135:135:2) arc(45:315:2)node[black,very thick] at (1.2,3.5){$A\cup B$}}
+% \newcommand{\AIB}{(0,0) arc (-45:45:2) arc (135:225:2)node[black,very thick] at (0,1.5){$A\cap B$}}
+% \newcommand{\APB}{(0,0) arc (225:135:2) arc (45:315:2)}
+% \newcommand{\BPA}{(0,0) arc(-135:135:2) arc(45:-45:2)}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \pgfplotsset{compat=1.13}
+
+\RequirePackage{tikz,tkz-tab}
+\RequirePackage{tikzpagenodes}
+
+%\RequirePackage{tkz-euclide}
+% \makeatletter
+% \def\tkz@Projection(#1,#2)(#3)#4{%
+% \begingroup 
+%   \pgfpointdiff{\pgfpointanchor{#1}{center}}%
+%                {\pgfpointanchor{#2}{center}}%
+%   \tkz@ax =\pgf@y%
+%   \tkz@ay =\pgf@x%
+%   \begin{pgfinterruptboundingbox}
+%   \path[coordinate](#3)--++(-\tkz@ax,\tkz@ay) coordinate (tkz@point);
+%   \end{pgfinterruptboundingbox}
+%   \tkz@InterLL(#1,#2)(#3,tkz@point){#4}% définit tkzPointResult 
+% \endgroup
+% }
+% \makeatother
+% \RequirePackage{tkz-fct,tkz-base,tkz-kiviat}
+% \RequirePackage{tikz-3dplot}
+% \RequirePackage{pgf,pgfplots}
+% \usetkzobj{all}
+% \usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+%     shapes,shadows,matrix,fit,intersections,through,backgrounds,decorations.pathreplacing
+%     ,decorations.markings,3d,cd}
+% \usetikzlibrary{shapes.multipart}
+
+
+
+\endinput
