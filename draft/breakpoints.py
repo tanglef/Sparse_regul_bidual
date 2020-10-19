@@ -8,7 +8,7 @@ import seaborn as sns
 import os
 import sys
 path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(1, os.path.join(path, ".."))
+sys.path.insert(1, os.path.join(path, "..")) # to find utils from draft
 from utils import save_fig
 sns.set()
 
@@ -33,20 +33,22 @@ def G(x, m, n, split):
         else:
             return m * x + n
 
-m, n = 1, -1
-alpha, beta = - n / m, (1 - n) / m 
-x = np.linspace(-2, 4, 100)
 
-Gx = [G(x_i, m, n, split=False) for x_i in x]
-Gx_split = [G(x_i, m, n, split=True) for x_i in x]
+if __name__ == "__main__":
+    m, n = 1, -1
+    alpha, beta = - n / m, (1 - n) / m 
+    x = np.linspace(-2, 4, 100)
 
-plt.figure()
-plt.plot(x, Gx, label="G", color='k', linestyle=':', linewidth=3)
-plt.plot(x, Gx_split, label="G1 + G2", color="red")
-plt.plot(x, G1(x, m, alpha), label="G1", color='blue')
-plt.plot(x, G2(x, m, beta), label="G2", color='green')
-plt.legend()
-plt.title("Decomposition of a linear piecewise function with two breakpoints")
-plt.tight_layout()
-plt.savefig(save_fig(path, "decomposition", "pdf"))
-plt.show()
+    Gx = [G(x_i, m, n, split=False) for x_i in x]
+    Gx_split = [G(x_i, m, n, split=True) for x_i in x]
+
+    plt.figure()
+    plt.plot(x, Gx, label="G", color='k', linestyle=':', linewidth=3)
+    plt.plot(x, Gx_split, label="G1 + G2", color="red")
+    plt.plot(x, G1(x, m, alpha), label="G1", color='blue')
+    plt.plot(x, G2(x, m, beta), label="G2", color='green')
+    plt.legend()
+    plt.title("Decomposition of a linear piecewise function with two breakpoints")
+    plt.tight_layout()
+    plt.savefig(save_fig(path, "decomposition", "pdf"))
+    plt.show()

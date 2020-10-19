@@ -50,7 +50,8 @@ def norm_0(x, better_storage=False, eps=1e-7):
     """ 
     idx = np.where(x > eps)[0]
     if better_storage:
-        x = x[idx]
+        x_new = x[idx]
+        return len(idx), x_new
     return len(idx), x
 
 
@@ -73,10 +74,10 @@ def F(eta, alpha_t, beta_t, omega, x): # eta is gamma_p in the algo
     return alpha_t * eta + beta_t + sum_
 
 
-def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta):
+def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, best_store=True):
     a_tilde = 0
     b_tilde = - delta
-    norm0, x = norm_0(x, better_storage=True)
+    norm0, x = norm_0(x, better_storage=best_store)
     omega = range(norm0)
 
     while(len(omega) != 0):
