@@ -1,5 +1,6 @@
 """
-Section 3 plot with breakpoints
+Section 3 plot with breakpoints.
+Illustration for the beamer presentation.
 """
 
 import numpy as np

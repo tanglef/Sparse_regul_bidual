@@ -6,35 +6,6 @@ import numpy as np
 import time
 
 
-def fista(A, b, l, maxit, penalty): # TO DO : find the penalty and change it
-    """ Based from https://gist.github.com/agramfort/ac52a57dc6551138e89b
-    Modified with Python 3 for an arbitrary penalty
-    """
-
-    def soft_thresh(x, l):
-        return np.sign(x) * np.maximum(np.abs(x) - l, 0.)
-
-    x = np.zeros(A.shape[1])
-    t = 1
-    pobj = []
-    z = x.copy()
-    L = np.linalg.norm(A, ord=2) **2
-    time0 = time.time()
-    for _ in range(maxit):
-        xold = x.copy()
-        z = z + A.T.dot(b - A.dot(z)) / L
-        x = soft_thresh(z, l / L)
-        t0 = t
-        t = (1. + np.sqrt(1. + 4. * t ** 2)) / 2.
-        z = x + ((t0 - 1.) / t) * (x - xold)
-        this_pobj = 0.5 * np.linalg.norm(A.dot(x) - b) ** 2 + l * penalty(x)
-        pobj.append((time.time() - time0, this_pobj))
-
-    times, pobj = map(np.array, zip(*pobj))
-    return x, pobj, times
-
-
-
 def norm_0(x, better_storage=False, eps=1e-7):
     """ Compute the 0-norm of a vector
     Args: 
@@ -74,19 +45,30 @@ def F(eta, alpha_t, beta_t, omega, x): # eta is gamma_p in the algo
     return alpha_t * eta + beta_t + sum_
 
 
-def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, best_store=True):
+def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best_store=True):
     a_tilde = 0
     b_tilde = - delta
     norm0, x = norm_0(x, better_storage=best_store)
-    omega = range(norm0)
+    omega = np.arange(norm0)
 
     while(len(omega) != 0):
         p = np.random.choice(omega)
-        F_gamma_p = F(gamma[p], a_tilde, b_tilde, omega, x)
-        # TO DO: everything
-
-
-
-
-
-    
+        F_gamma_p = func(gamma[p], a_tilde, b_tilde, omega, x)
+        if np.isclose(F_gamma_p,0):
+            return gamma[p]
+        elif F_gamma_p > 0:
+            idx_in = np.where(gamma < gamma[p])
+            idx_out = np.where(gamma >= gamma[p])
+            choice = [idx_in[0][i] in omega for i in range(len(idx_in[0]))]
+            A = omega[np.isin(omega, idx_in[0][choice])]
+            a_tilde += np.sum(alpha_1[idx_out])
+            b_tilde += np.sum(beta_1[idx_out])
+            omega = A
+        else:
+            idx_in = np.where(gamma > gamma[p])
+            idx_out = np.where(gamma <= gamma[p])
+            A = omega[[idx_in[0][i] in omega for i in range(len(idx_in[0]))]]
+            a_tilde += np.sum(alpha_2[idx_out])
+            b_tilde += np.sum(beta_2[idx_out])
+            omega = A
+    return - b_tilde / a_tilde
