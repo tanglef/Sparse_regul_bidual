@@ -14,3 +14,9 @@ draft/*.pdf
 *.xml
 *.gz
 *.toc
+
+*.nav
+
+*.snm
+
+presentation/beamer.pdf

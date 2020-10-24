@@ -18,7 +18,7 @@ def norm_0(x, better_storage=False, eps=1e-7):
     -------
         the 0 norm
         the new x (different than the original if better_storage is True)
-    """ 
+    """
     idx = np.where(x > eps)[0]
     if better_storage:
         x_new = x[idx]
@@ -35,14 +35,46 @@ def F_j(eta, x, j):
         j: index in [[1,q]]
     """
 
-    abs_ = np.abs(x[j]) 
-    ans =  abs_ * eta if eta <= 1 / abs_ else 1
+    abs_ = np.abs(x[j])
+    ans = abs_ * eta if eta <= 1 / abs_ else 1
     return ans
 
-def F(eta, alpha_t, beta_t, omega, x): # eta is gamma_p in the algo
+
+def F(eta, alpha_t, beta_t, omega, x):  # eta is gamma_p in the algo
     res_Fj = [F_j(eta, x, j) for j in omega]
     sum_ = np.sum(res_Fj)
     return alpha_t * eta + beta_t + sum_
+
+
+def u_i(eta, x, lambda_, i, eps=1e-7):
+    if x[i] <= eps:
+        return 0
+
+    if eta <= lambda_ / np.abs(x[i]):
+        return 0
+    elif eta >= (lambda_ + 1) / np.abs(x[i]):
+        return 1
+    else:
+        return np.abs(x[i]) * eta - lambda_
+
+
+def h_eta(eta, x, k, lambda_):
+    sum_ = np.sum([u_i(eta, x, lambda_, i) for i in range(len(x))])
+    return sum_ - k
+
+def dichoto_h(x, lambda_, k, eps):
+    _, x_sp = norm_0(x, better_storage=True)
+    binf = lambda_ / np.max(np.abs(x_sp))
+    bsup = (lambda_ + 1) / np.abs(np.min(x_sp))
+    bridge = bsup - binf
+    while np.abs(bridge) > eps:
+        eta = (binf + bsup) / 2
+        if h_eta(eta, x, k, lambda_) > 0:
+            bsup = eta
+        else:
+            binf = eta
+        bridge = bsup - binf
+    return eta
 
 
 def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best_store=True):
@@ -54,7 +86,7 @@ def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best
     while(len(omega) != 0):
         p = np.random.choice(omega)
         F_gamma_p = func(gamma[p], a_tilde, b_tilde, omega, x)
-        if np.isclose(F_gamma_p,0):
+        if np.isclose(F_gamma_p, 0):
             return gamma[p]
         elif F_gamma_p > 0:
             idx_in = np.where(gamma < gamma[p])
