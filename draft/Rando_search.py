@@ -67,7 +67,8 @@ def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best
         else:
             idx_in = np.where(gamma > gamma[p])
             idx_out = np.where(gamma <= gamma[p])
-            A = omega[[idx_in[0][i] in omega for i in range(len(idx_in[0]))]]
+            choice = [idx_in[0][i] in omega for i in range(len(idx_in[0]))]
+            A = omega[np.isin(omega, idx_in[0][choice])]
             a_tilde += np.sum(alpha_2[idx_out])
             b_tilde += np.sum(beta_2[idx_out])
             omega = A
