@@ -29,13 +29,13 @@
 	
 	\textsc{\LARGE University of Montpellier}\\[1.5cm]
 	
-	\textsc{\Large Master 1 Biostatistics }\\[0.5cm] 
+	\textsc{\Large Master 2 Biostatistics }\\[0.5cm] 
 	
 	\textsc{\large HMMA$307$ project}\\[0.5cm] 
-
+    \vspace{2cm}
 	\HRule\\[0.4cm]
 	
-	{\huge\bfseries Whole title to put later}\\[0.4cm] 
+	{\huge\bfseries Sparse Regularization via Bidualization}\\[0.4cm] 
 	
 	\HRule\\[1.5cm]
 	
@@ -79,16 +79,51 @@ The increasing................
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Sections files
+% Sections of presentation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Section 1}
+\section{Solving problems with regularization}
+
+% Present the problem with existing ridge and why L0
+Regularized problems are a very useful way to obtain a solution in many situations. We write the problem as 
+\[\min_{x\in\RR^n} f(x) + \mathrm{pen}(x)\enspace,\]
+where $f$ only depends of the data collected and $\mathrm{pen}$ is a penalty term. It can represent for example a constraint over the number of variables that play a role.
+In the case of the Tikhonov-ridge regularization, for a matrix $A\in\RR^{n\times n}$ made from the data and an observed signal $b\in\RR^n$, we write the problem
+\[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \frac{\lambda}{2}\|x\|^2_2\enspace,\]
+where $\lambda \geq 0$ represents how strong the penalty on the $l_2$ norm of the solution is. Note that for $\lambda = 0$ we retrieve the least square problem, and when $\lambda\rightarrow +\infty$, we have $x=0$.
+However, when working with an observed signal, we sometimes know in advance the sparsity (or a reasonable estimate) of the original one. So we have an information that is stronger than a constraint on the norm of the vector, we have a constraint on the number of non-zero values, meaning on the $l_0$ norm.
+
+% define the l_0 norm and space Ck
+\begin{definition}
+Let $x\in\RR^n$, the $l_0$ norm of $x$ noted $\|x\|_0$ is the number of non-zero values: \[\|x\|_0:=\abs{\{i\,|\, x_i\neq 0\}}\enspace .\]
+We note $C_k$ the space of the $k$-sparse vectors: $C_k := \{x\in\RR^n\,|\, \|x\|_0 = k\}.$
+\end{definition}
+
+% introduce LASSO and ENET
+One of the main advantages of the Tikhonov ($l_2$) regularization is the differentiability, the convexity and the continuity. With the $l_0$ norm, we lose them all. This lead to a compromise called the \lasso using the $l_1$ norm to keep the continuity and use sub-differentials instead of regular ones. The \lasso method will select some variables (depending on the value of $\lambda$) to explain the observed signal. It is very useful in a lot of situations like in genomics, but in situations with highly correlated groups of variables, the \lasso tends to only select one from each group and force the others to a null-effect. This issue lead to the development of the \enet method which uses a penalizer that is a combination of the Tikhonov and \lasso penalty
+\[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \lambda_1 \|x_1\| +  \frac{\lambda_2}{2}\|x\|^2_2\enspace.\]
+
+% the studied penalty
+The proposition of \textbf{MAKE CITATION} is to keep the $l_0$ norm for the sparsity penalty and use the $l_2$ norm in the \enet for the grouping effect. The penalty is then:
+\[s_k(x)=\begin{cases} \frac{1}{2}\|x\|_2^2, \text{ if } \|x\|_0\leq k\\
+\infty, \text{ else}\end{cases} = \frac{1}{2}\|x\|_2^2 + \delta_{C_k}\enspace.\]
+However, the first problem is still there. We don't have neither the continuity nor the convexity. That's why instead of considering $s_k$, we will consider it's best convex estimator, the sparse envelope:
+\[ \mathcal{S}_k(x) := s_k^{**}(x)\enspace,\]
+where, for a function $f$, we define its convex conjugate by  $f^*(y)=\max_{x\in\RR^n}\{\langle x, y\rangle - g(x)\}.$
+Our goal from now is to compute efficiently the proximal operator of $\lambda \mathcal{S}_k$, for $\lambda >0$ and then compare our results to the \enet ones.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sections 2: s** = S (what is this object?)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compute the convex biregularization}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sections 3: prox_lambdaSk (comparisons with Enet)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proximal operator computation and numerical results}
 
 
-\section{Section 2}
-%file
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusion
@@ -96,7 +131,7 @@ The increasing................
 
 \section*{Conclusion}
 
-In conclusion, the biregulariation method................
+In conclusion, the biregularization method................
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
