@@ -5,7 +5,17 @@ import seaborn as sns
 sns.set()
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
+import os
+import sys
 from sklearn.linear_model import LinearRegression
+path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(1, os.path.join(path, "..")) # to find utils from draft
+from utils import save_fig
+params = {'axes.labelsize': 18,
+          'font.size': 16,
+          'legend.fontsize': 'xx-large',
+          'figure.figsize': (8, 6)}
+plt.rcParams.update(params)
 from prox_computation import fista
 SEED = 11235813
 np.random.seed(SEED)
@@ -88,13 +98,15 @@ ax = fig.add_subplot(111)
 ax.plot(x_true, label="True signal")
 ax.plot(x_lasso[:, index_lasso], '--', label="Lasso")
 ax.plot(x_enet[:, index_enet].reshape(-1), '-.', label="Elastic-Net")
-plt.ylim([-.5,5])
-plt.legend()
+plt.legend(fontsize='x-large', title_fontsize='20')
+plt.savefig(save_fig(path, "Lasso_enet", "pdf"))
+
 
 fig = plt.figure(figsize=(15,10))
 ax = fig.add_subplot(111)
 ax.plot(x_true, label="True signal")
 ax.plot(x_enet[:, index_enet].reshape(-1), '-.', label="Elastic-Net")
 ax.plot(x_prox, '-', label="Proximal")
-plt.legend()
+plt.legend(fontsize='x-large', title_fontsize='20')
+plt.savefig(save_fig(path, "enet_proxi", "pdf"))
 plt.show()

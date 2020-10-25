@@ -62,6 +62,7 @@ def h_eta(eta, x, k, lambda_):
     sum_ = np.sum([u_i(eta, x, lambda_, i) for i in range(len(x))])
     return sum_ - k
 
+
 def dichoto_h(x, lambda_, k, eps):
     _, x_sp = norm_0(x, better_storage=True)
     binf = lambda_ / np.max(np.abs(x_sp))
@@ -105,3 +106,19 @@ def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best
             b_tilde += np.sum(beta_2[idx_out])
             omega = A
     return - b_tilde / a_tilde
+
+if __name__ == '__main__':
+    # show that the random search works on an example
+    n = 50
+    x_true = np.array([3]*15 + [0]*25)
+    
+    alpha_1 = np.abs(x_true[np.where(x_true >= 1e-7)])
+    beta_1 = np.zeros_like(alpha_1)
+    alpha_2 = np.zeros_like(alpha_1)
+    beta_2 = np.ones_like(alpha_1)
+    gamma = 1 / alpha_1
+    delta = 15
+
+    eta_t = rando_search(x_true, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best_store=True)
+    print(eta_t)
+    print(np.sum([min(np.abs(x_true[i]) * eta_t, 1) for i in range(len(x_true)) ]) - 15)

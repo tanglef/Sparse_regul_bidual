@@ -17,8 +17,9 @@ def prox_lambdSk(x, lambda_, k=15, eps=1e-7):
         # alpha_2 = np.zeros_like(alpha_1)
         # beta_2 = np.ones_like(alpha_1)
         # gamma = 1 / alpha_1
-        eta_tilde = dichoto_h(x, lambda_, k, eps) # or random search
+        # or random search and
         # to compute eta_tilde : use decomp btm page 16
+        eta_tilde = dichoto_h(x, lambda_, k, eps)
         u = np.array([u_i(eta_tilde, x, lambda_, i) for i in range(len(x))])
         w = (x * u) / (lambda_ + u)
     return w

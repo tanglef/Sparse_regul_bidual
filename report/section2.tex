@@ -1,0 +1,29 @@
+% Introduce H_k and the problem
+First, let's note $\abs{x_{\langle i\rangle}}$ the $i\textsuperscript{th}$ biggest (in absolute value) component of the vector $x$. The best approximation (w.r.t the $l_2$ norm) in $C_k$ for a determined $k\in\NN^*$ of a signal $x\in\RR^n$ is noted $H_k(x)$ and we define its components with 
+\[\big(H_k(x)\big)_j = \begin{cases} x_j,\text{ if }x_j \geq \abs{x_{\langle k\rangle}} \\
+0, \text{ else }\end{cases} \forall j =1,\dots, n\enspace. \]
+Now, we can try to find an expression for $\mathcal{S}_k(x)$.
+
+% Proposition conjugate of s
+\begin{proposition}\label{prop:skstar}
+Let $y\in\RR^n$ and $k\in\NN^*$, then $s_k^*(y) = \frac{1}{2}\|H_k(y)\|^2_2$.
+\end{proposition}
+
+% its proof
+\begin{proof}
+Using \eqref{eq:conjugate}, we know that for $y\in\RR^n$,
+\[
+\begin{aligned}
+s_k^*(y) & = \max_{x\in\RR^n}\left[\langle x,y\rangle - s_k(x)\right]\\
+         & = \max_{x\in\RR^n}\left[\langle x,y\rangle - \frac{\|x\|_2^2}{2}\right]\\
+         & = \max_{x\in\RR^n}\left[-\left(\frac{\|x\|^2_2}{2} - \langle x, y\rangle\right) \right]
+         & = \max_{x\in\RR^n}\left[-\frac{\|x-y\|^2_2}{2} + \frac{\|y\|^2_2}{2} \right] \enspace.
+\end{aligned}
+\]
+Besides, $H_k(x)\in\arg\min_{y\in C_k}\|x-y\|_2$ and $\|y\|_2^2$ is independent of $x$, so 
+\[s_k^*(y) -\frac{1}{2}\|H_k(y) - y\|^2_2 + \frac{1}{2}\|y\|_2^2\enspace.\]
+And $-\|H_k(y) -y\|^2_2 = -\|H_k(y)\|_2^2 - \|y\|^2_2 + 2 \langle H_k(y),y\rangle$. But because $(H_k(y))_j=0$ for the $n-k$ smallest absolute values of $y$, $\langle H_k(y),y\rangle = \|H_k(y)\|_2^2$. Thus, we obtain by plugging-in this value:
+\[s_k^*(y) = -\frac{1}{2}\|H_k(y)\|_2^2\enspace.\]
+\end{proof}
+
+To find the biconjugate of $s_k(y)$, we now only have to find the conjugate of $-\frac{1}{2}\|H_k(y)\|^2_2$.

@@ -100,8 +100,19 @@ We note $C_k$ the space of the $k$-sparse vectors: $C_k := \{x\in\RR^n\,|\, \|x\
 \end{definition}
 
 % introduce LASSO and ENET
-One of the main advantages of the Tikhonov ($l_2$) regularization is the differentiability, the convexity and the continuity. With the $l_0$ norm, we lose them all. This lead to a compromise called the \lasso using the $l_1$ norm to keep the continuity and use sub-differentials instead of regular ones. The \lasso method will select some variables (depending on the value of $\lambda$) to explain the observed signal. It is very useful in a lot of situations like in genomics, but in situations with highly correlated groups of variables, the \lasso tends to only select one from each group and force the others to a null-effect. This issue lead to the development of the \enet method which uses a penalizer that is a combination of the Tikhonov and \lasso penalty
+One of the main advantages of the Tikhonov ($l_2$) regularization is the differentiability, the convexity and the continuity. With the $l_0$ norm, we lose them all. This lead to a compromise called the \lasso using the $l_1$ norm to keep the continuity and use sub-differentials instead of regular ones. The \lasso method will select some variables (depending on the value of $\lambda$) to explain the observed signal. It is very useful in a lot of situations like in genomics, but in situations with highly correlated groups of variables, the \lasso tends to only select one from each group and force the others to a null-effect as we can see on Figure \ref{fig:lasso_enet}. This issue lead to the development of the \enet method which uses a penalizer that is a combination of the Tikhonov and \lasso penalty
 \[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \lambda_1 \|x_1\| +  \frac{\lambda_2}{2}\|x\|^2_2\enspace.\]
+
+\begin{center}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.9\linewidth]{Lasso_enet.pdf}
+        \caption{Representation of the grouping effect of the LASSO in a highly correlated situation and how the Elastic net is better is that case.}
+        \label{fig:lasso_enet}
+    \end{figure}
+\end{center}
+
+
 
 % the studied penalty
 The proposition of \textbf{MAKE CITATION} is to keep the $l_0$ norm for the sparsity penalty and use the $l_2$ norm in the \enet for the grouping effect. The penalty is then:
@@ -109,7 +120,10 @@ The proposition of \textbf{MAKE CITATION} is to keep the $l_0$ norm for the spar
 \infty, \text{ else}\end{cases} = \frac{1}{2}\|x\|_2^2 + \delta_{C_k}\enspace.\]
 However, the first problem is still there. We don't have neither the continuity nor the convexity. That's why instead of considering $s_k$, we will consider it's best convex estimator, the sparse envelope:
 \[ \mathcal{S}_k(x) := s_k^{**}(x)\enspace,\]
-where, for a function $f$, we define its convex conjugate by  $f^*(y)=\max_{x\in\RR^n}\{\langle x, y\rangle - g(x)\}.$
+where, for a function $f$, we define its convex conjugate (also called Fenchel's conjugate) by  
+\begin{equation}\label{eq:conjugate}
+    f^*(y)=\max_{x\in\RR^n}\{\langle x, y\rangle - g(x)\}\enspace.
+\end{equation}
 Our goal from now is to compute efficiently the proximal operator of $\lambda \mathcal{S}_k$, for $\lambda >0$ and then compare our results to the \enet ones.
 
 
@@ -117,13 +131,38 @@ Our goal from now is to compute efficiently the proximal operator of $\lambda \m
 % Sections 2: s** = S (what is this object?)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compute the convex biregularization}
+\input{report/section2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sections 3: prox_lambdaSk (comparisons with Enet)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Proximal operator computation and numerical results}
+\subsection{Compute the proximal operator}
 
+\subsection{Numerical application}
+Let's finally compare our regularized problem with the \enet
+regularization in an highly correlated situation (the same represented in Figure \ref{fig:lasso_enet}).
+We simulate a signal with only $3$'s for the first fifteen components and zeros for the rest. The observed signal is 
+\[ b = Ax + \varepsilon\enspace,\]
+where $\varepsilon\sim\mathcal{N}(0,\sigma^2)$ is a Gaussian noise.
 
+% keep describing A
+
+The sparse-envelope problem is written as:
+\[\min_{x\in \RR^n} \|Ax-b\|^2_2 + \lambda\mathcal{S}_k(x)\enspace,\]
+where $\lambda$ must be chosen through a train/test procedure and we take $k=15$ because we know its real value here otherwise we would have to search it as well.
+
+\begin{center}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.9\linewidth]{enet_proxi.pdf}
+        \caption{Comparison of the Elastic-net and sparse regularization in a highly correlated situation with $n=50$ and $\sigma=0.1$.}
+        \label{fig:enet_sp}
+    \end{figure}
+\end{center}
+
+As the Figure \ref{fig:enet_sp} shows, the proximal envelope is even closer to the original signal than the \enet in this case.
+We can now compare if this is also the case for some increasing values of $n$ and quantify the gain of using this method instead of the \enet currently used.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusion
