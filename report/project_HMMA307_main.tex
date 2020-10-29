@@ -4,7 +4,7 @@
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[backend=biber,style=verbose,citetracker=true]{biblatex}
+\usepackage[backend=biber,citetracker=true]{biblatex}
 \usepackage[T1]{fontenc}
 \usepackage{csquotes}
 
@@ -12,13 +12,10 @@
 \addbibresource{bibliography.bib}
 
 \author{Tanguy Lefort}
-\title{Title}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% Begin document - title page %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \begin{document}
 
@@ -42,8 +39,8 @@
 	\begin{minipage}{0.4\textwidth}
 		\begin{flushleft}
 			\large
-			\textit{By:}\\
-			Tanguy Lefort 
+			\textit{Student:}\\
+			Tanguy Lefort
 		\end{flushleft}
 	\end{minipage}
 	~
@@ -54,6 +51,10 @@
 			Joseph salmon\\
 		\end{flushright}
 	\end{minipage}
+	
+	\center
+	\textsc{From the article of Amir Beck and Yehonathan Refael}
+	
 	\vspace{2cm}
 	\vfill % Position the date 3/4 down the remaining page
 	
@@ -62,7 +63,7 @@
     \node[anchor=south] at (current page text area.south) {\includegraphics[scale=0.3]{Logo.pdf}};
     \end{tikzpicture}	
 	 
-	%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
 	
 	\vfill 
 \end{titlepage}
@@ -104,9 +105,9 @@ One of the main advantages of the Tikhonov ($l_2$) regularization is the differe
 \[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \lambda_1 \|x_1\| +  \frac{\lambda_2}{2}\|x\|^2_2\enspace.\]
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[H]
         \centering
-        \includegraphics[width=.9\linewidth]{Lasso_enet.pdf}
+        \includegraphics[width=.9\linewidth]{images/Lasso_enet.pdf}
         \caption{Representation of the grouping effect of the LASSO in a highly correlated situation and how the Elastic net is better is that case.}
         \label{fig:lasso_enet}
     \end{figure}
@@ -115,7 +116,7 @@ One of the main advantages of the Tikhonov ($l_2$) regularization is the differe
 
 
 % the studied penalty
-The proposition of \textbf{MAKE CITATION} is to keep the $l_0$ norm for the sparsity penalty and use the $l_2$ norm in the \enet for the grouping effect. The penalty is then:
+The proposition of \cite{beck} is to keep the $l_0$ norm for the sparsity penalty and use the $l_2$ norm in the \enet for the grouping effect. The penalty is then:
 \[s_k(x)=\begin{cases} \frac{1}{2}\|x\|_2^2, \text{ if } \|x\|_0\leq k\\
 \infty, \text{ else}\end{cases} = \frac{1}{2}\|x\|_2^2 + \delta_{C_k}\enspace.\]
 However, the first problem is still there. We don't have neither the continuity nor the convexity. That's why instead of considering $s_k$, we will consider it's best convex estimator, the sparse envelope:
@@ -130,7 +131,7 @@ Our goal from now is to compute efficiently the proximal operator of $\lambda \m
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sections 2: s** = S (what is this object?)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Compute the convex biregularization}
+\section{Convex biregularization}
 \input{report/section2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,9 +154,9 @@ The sparse-envelope problem is written as:
 where $\lambda$ must be chosen through a train/test procedure and we take $k=15$ because we know its real value here otherwise we would have to search it as well.
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[H]
         \centering
-        \includegraphics[width=.9\linewidth]{enet_proxi.pdf}
+        \includegraphics[width=.9\linewidth]{images/enet_proxi.pdf}
         \caption{Comparison of the Elastic-net and sparse regularization in a highly correlated situation with $n=50$ and $\sigma=0.1$.}
         \label{fig:enet_sp}
     \end{figure}
