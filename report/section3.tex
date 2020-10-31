@@ -23,7 +23,7 @@ The sparse envelope $\mathcal{S}_k$ is closed \emph{ie} for all $y \in \RR,\ \le
 For a proper closed convex function $f$, $\abs{\prox_f(x)} = 1$ for all $x\in\EE$.
 \end{theorem}
 
-When solving an inverse problem, as we saw with the ridge penalty or \enet, there is an hyperparameter multiplying the penalty factor. Let's note it $\lambda_s>0$ for the sparse envelope. Then \ref{thm:unicityprox} still holds and there is an almost explicit formulation for the value of $\prox_{\lambda\mathcal{S}_k}$.
+When solving an inverse problem, as we saw with the ridge penalty or \enet, there is an hyperparameter multiplying the penalty factor. Let's note it $\lambda_s>0$ for the sparse envelope. Then theorem  \ref{thm:unicityprox} still holds and there is an almost explicit formulation for the value of $\prox_{\lambda\mathcal{S}_k}$.
 
 % form for the \lambda prox_k(x) with u_i 
 \begin{proposition}
@@ -50,7 +50,7 @@ And plugging-in this result, it is easy to show that $\varphi(x,\hat z, u) = \fr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection[Algorithm]{Algorithms for the sparse envelope}
 To find the root of a function defined as the sum of piecewise linear functions with a single breakpoint, we can use the \textit{Random Search} algorithm.
-\input{report/algorithm}
+\input{algorithm}
 
 \begin{remark}
 Note that this algorithm exploits the fact that the problem was reduced from finding a vector of dimension $n$ to finding the root of a function in one dimension. Besides, it is efficient with sparse vectors because of the choice of the $F_j$ functions in the sum. In the worse case, we find ourselves with a complexity of $\mathcal{O}(n)$ that does not depend on the size of an initial interval like the bisection method.
@@ -59,7 +59,7 @@ Note that this algorithm exploits the fact that the problem was reduced from fin
 % figure for decomposition into sum of single-breakpoints
 \begin{figure}[H]
     \centering
-    \includegraphics[height=6cm, trim={0cm 0Cm 0cm 1cm}, clip]{images/decomposition.pdf}
+    \includegraphics[height=6cm, trim={0cm 0Cm 0cm 1cm}, clip]{decomposition.pdf}
     \caption{Decomposition of a piecewise linear signal with two breakpoints into the sum of two piecewise learn signals with a single breakpoint each.}
     \label{fig:decomposition}
 \end{figure}
@@ -94,7 +94,7 @@ where $\lambda$ must be chosen through a train/test procedure and we take $k=15$
 \begin{center}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=.9\linewidth]{images/enet_proxi.pdf}
+        \includegraphics[width=.9\linewidth]{enet_proxi.pdf}
         \caption{Comparison of the Elastic-net and sparse regularization in a highly correlated situation with $n=50$ and $\sigma=0.1$.}
         \label{fig:enet_sp}
     \end{figure}
