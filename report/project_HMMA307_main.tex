@@ -7,9 +7,26 @@
 \usepackage[backend=biber,citetracker=true]{biblatex}
 \usepackage[T1]{fontenc}
 \usepackage{csquotes}
+\usetikzlibrary{arrows.meta}
 
 \graphicspath{{../images/}}
 \addbibresource{bibliography.bib}
+\tikzset{% Tikz schematic
+  >={Latex[width=2mm,length=2mm]},
+            base/.style = {rectangle, rounded corners, draw=black,
+                           minimum width=4cm, minimum height=1cm,
+                           text centered, font=\sffamily},
+            base_left/.style = {rectangle, rounded corners, draw=black,
+                           minimum width=4cm, minimum height=1cm, align=left,
+                           font=\sffamily},
+  activityStarts/.style = {base, fill=green!30},
+       startstop/.style = {base, fill=cyan!30},
+    activityRuns/.style = {base, fill=blue!30},
+         process/.style = {base, minimum width=2.5cm, fill=orange!15,
+                           font=\ttfamily},
+        cond/.style     = {base, fill=magenta!70},
+        legend/.style   = {base, fill=gray!50},
+}
 
 \author{Tanguy Lefort}
 
@@ -51,11 +68,10 @@
 			Joseph salmon\\
 		\end{flushright}
 	\end{minipage}
-	
-	\center
-	\textsc{From the article of Amir Beck and Yehonathan Refael}
-	
 	\vspace{2cm}
+	\center
+	\textsc{Reproducing parts of the article of\\ Amir Beck and Yehonathan Refael}
+	
 	\vfill % Position the date 3/4 down the remaining page
 	
 	{\large 2020} 
@@ -92,7 +108,7 @@ where $f$ only depends of the data collected and $\mathrm{pen}$ is a penalty ter
 In the case of the Tikhonov-ridge regularization, for a matrix $A\in\RR^{n\times n}$ made from the data and an observed signal $b\in\RR^n$, we write the problem
 \[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \frac{\lambda}{2}\|x\|^2_2\enspace,\]
 where $\lambda \geq 0$ represents how strong the penalty on the $l_2$ norm of the solution is. Note that for $\lambda = 0$ we retrieve the least square problem, and when $\lambda\rightarrow +\infty$, we have $x=0$.
-However, when working with an observed signal, we sometimes know in advance the sparsity (or a reasonable estimate) of the original one. So we have an information that is stronger than a constraint on the norm of the vector, we have a constraint on the number of non-zero values, meaning on the $l_0$ norm.
+However, when working with an observed signal, we sometimes know in advance the sparsity (or a reasonable estimate) of the original one. So we have an information that is stronger than a constraint on the $2$-norm of the vector, we have a constraint on the number of non-zero values, meaning on the $l_0$ norm.
 
 % define the l_0 norm and space Ck
 \begin{definition}
@@ -125,8 +141,8 @@ where, for a function $f$, we define its convex conjugate (also called Fenchel's
 \begin{equation}\label{eq:conjugate}
     f^*(y)=\max_{x\in\RR^n}\{\langle x, y\rangle - g(x)\}\enspace.
 \end{equation}
-Our goal from now is to compute efficiently the proximal operator of $\lambda \mathcal{S}_k$, for $\lambda >0$ and then compare our results to the \enet ones.
 
+We now need to find an efficient way to solve the inverse problem with this penalty.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sections 2: s** = S (what is this object?)
@@ -137,33 +153,8 @@ Our goal from now is to compute efficiently the proximal operator of $\lambda \m
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sections 3: prox_lambdaSk (comparisons with Enet)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proximal operator computation and numerical results}
-\subsection{Compute the proximal operator}
-
-\subsection{Numerical application}
-Let's finally compare our regularized problem with the \enet
-regularization in an highly correlated situation (the same represented in Figure \ref{fig:lasso_enet}).
-We simulate a signal with only $3$'s for the first fifteen components and zeros for the rest. The observed signal is 
-\[ b = Ax + \varepsilon\enspace,\]
-where $\varepsilon\sim\mathcal{N}(0,\sigma^2)$ is a Gaussian noise.
-
-% keep describing A
-
-The sparse-envelope problem is written as:
-\[\min_{x\in \RR^n} \|Ax-b\|^2_2 + \lambda\mathcal{S}_k(x)\enspace,\]
-where $\lambda$ must be chosen through a train/test procedure and we take $k=15$ because we know its real value here otherwise we would have to search it as well.
-
-\begin{center}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=.9\linewidth]{images/enet_proxi.pdf}
-        \caption{Comparison of the Elastic-net and sparse regularization in a highly correlated situation with $n=50$ and $\sigma=0.1$.}
-        \label{fig:enet_sp}
-    \end{figure}
-\end{center}
-
-As the Figure \ref{fig:enet_sp} shows, the proximal envelope is even closer to the original signal than the \enet in this case.
-We can now compare if this is also the case for some increasing values of $n$ and quantify the gain of using this method instead of the \enet currently used.
+\section{Proximal operator and numerical results}
+\input{report/section3}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusion
@@ -178,7 +169,7 @@ In conclusion, the biregularization method................
 %%%%%%%%%%%%%%%%%%%%%%%%%%    Bibliography   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Bibliography}
+\section*{Bibliography}
 \nocite{*}
 \printbibliography
 

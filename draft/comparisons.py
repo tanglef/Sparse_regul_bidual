@@ -1,3 +1,4 @@
+import warnings
 from prox_computation import fista
 from utils import save_fig
 from sklearn.linear_model import LinearRegression
@@ -18,7 +19,6 @@ params = {'axes.labelsize': 18,
           'legend.fontsize': 'xx-large',
           'figure.figsize': (8, 6)}
 plt.rcParams.update(params)
-import warnings
 warnings.filterwarnings("ignore")
 SEED = 112358139
 np.random.seed(SEED)
@@ -131,41 +131,51 @@ plt.show()
 n_tested = [40, 80]
 blurs = [.1, 1, 2]
 nb_tests = 10
-norm_diff_enet = []
-norm_diff_prox = []
+std_improve = []
+se_improve = []
+
+
+alphas = np.logspace(np.log10(10), np.log10(1e-7), num=50)
+l1_ratio = np.logspace(np.log10(.99), np.log10(1e-4), num=20)
+lambda_list = np.array([.01 * 2 ** i for i in range(1, 16)])
+nb_rep = 2
+
+###############################
+# increase it to 50 for a good estimate (long!!)
+# Time would be shorter if:
+# - use of the sparsity
+# - use the random search instead of dichotomy
+################################
 
 for n in n_tested:
     for sigma in blurs:
-        A, b, x_true = make_data(n, sigma)
-        alphas = np.logspace(np.log10(10), np.log10(1e-7), num=50)
-        l1_ratio = np.logspace(np.log10(.99), np.log10(1e-4),
-                               num=20)
+        enet = []
+        prox = []
+        se = []
+        for _ in range(nb_rep):
+            A, b, x_true = make_data(n, sigma)
+            el_net = linear_model.ElasticNetCV(alphas=alphas, l1_ratio=l1_ratio,
+                                               fit_intercept=False, normalize=False, cv=CV,
+                                               max_iter=1e5, random_state=SEED)
+            el_net.fit(A, b)
+            alpha_cv_net = el_net.alpha_
+            l1_cv_net = el_net.l1_ratio_
+            _, x_enet, _ = linear_model.enet_path(A, b, l1_ratio=l1_cv_net, alphas=alphas,
+                                                  fit_intercept=False, return_models=False)
+            index_enet = np.where(alphas == alpha_cv_net)
+            x_enet = x_enet[:, index_enet]
+            lambda_best = choose_lambda(A, b, lambda_list, eps=1e-7)
+            x_prox = fista(A, b, lambda_best, 500, 15, eps=1e-7)
 
-        el_net = linear_model.ElasticNetCV(alphas=alphas, l1_ratio=l1_ratio,
-                                           fit_intercept=False, normalize=False, cv=CV,
-                                           max_iter=1e5, random_state=SEED)
-        el_net.fit(A, b)
-        alpha_cv_net = el_net.alpha_
-        l1_cv_net = el_net.l1_ratio_
-        _, x_enet, _ = linear_model.enet_path(A, b, l1_ratio=l1_cv_net, alphas=alphas,
-                                              fit_intercept=False, return_models=False)
-        index_enet = np.where(alphas == alpha_cv_net)
-        x_enet = x_enet[:, index_enet]
-        lambda_list = np.logspace(np.log10(.99), np.log10(1e-4),
-                                  num=20)
-        lambda_best = choose_lambda(A, b, lambda_list, eps=1e-7)
-        x_prox = fista(A, b, lambda_best, 500, 15, eps=1e-7)
-
-        norm_diff_enet.append(np.linalg.norm(x_true - x_enet))
-        norm_diff_prox.append(np.linalg.norm(x_true - x_prox))
+            enet.append(np.linalg.norm(x_true - x_enet))
+            prox.append(np.linalg.norm(x_true - x_prox))
+            se.append((prox[-1] / enet[-1] - 1) * 100)
+        se_improve.append(np.mean(se))
+        std_improve.append(np.std(se))
         print("####### Finished n={}, sigma={}.".format(n, sigma))
 
-se_improve = []
-for i in range(len(norm_diff_prox)):
-    quant = (norm_diff_enet[i] / norm_diff_prox[i] - 1) * 100
-    se_improve.append(quant)
 
 dic = {"n": np.repeat(n_tested, 3), "sigma": blurs * 2,
-       "SE_improve": se_improve}
+       "SE_improve": se_improve, "std": std_improve}
 
 print(pd.DataFrame(dic))

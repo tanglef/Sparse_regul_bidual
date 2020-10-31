@@ -14,9 +14,9 @@ Let $y\in\RR^n$ and $k\in\NN^*$, then $s_k^*(y) = \frac{1}{2}\|H_k(y)\|^2_2$.
 Using \eqref{eq:conjugate}, we know that for $y\in\RR^n$,
 \[
 \begin{aligned}
-s_k^*(y) & = \max_{x\in\RR^n}\left[\langle x,y\rangle - s_k(x)\right] = \max_{x\in\RR^n}\left[\langle x,y\rangle - \frac{\|x\|_2^2}{2}\right]\\
-         & = \max_{x\in\RR^n}\left[-\left(\frac{\|x\|^2_2}{2} - \langle x, y\rangle\right) \right]
-         & = \max_{x\in\RR^n}\left[-\frac{\|x-y\|^2_2}{2} + \frac{\|y\|^2_2}{2} \right] \enspace.
+s_k^*(y) & = \max_{x\in\RR^n}\left[\langle x,y\rangle - s_k(x)\right] = \max_{x\in\RR^n}\left[\langle x,y\rangle - \frac{\|x\|_2^2}{2}\right]
+          = \max_{x\in\RR^n}\left[-\left(\frac{\|x\|^2_2}{2} - \langle x, y\rangle\right) \right]\\
+          &= \max_{x\in\RR^n}\left[-\frac{\|x-y\|^2_2}{2} + \frac{\|y\|^2_2}{2} \right] \enspace.
 \end{aligned}
 \]
 Besides, $H_k(x)\in\arg\min_{y\in C_k}\|x-y\|_2$ and $\|y\|_2^2$ is independent of $x$, so 
@@ -33,14 +33,14 @@ To find the biconjugate of $s_k(y)$, we now only have to find the conjugate of $
 Thanks to Sion's $minimax$ theorem \cite{10.2307/30037472} thanks to the convexity and concavity, we can inverse the $\min$ and $\max$ we can switch the two operators and get an expression of $\mathcal{S}_k(x)$.
 
 % theorem with the linear over quadratic formula
-\begin{proposition} With the same notations we have 
+\begin{proposition}\label{prop:Sfromphi} With the same notations we have 
 \begin{equation}\mathcal{S}_k(x) = \frac{1}{2}\min_{u\in D_k} \sum_{i=1}^n \phi(x_i, u_i)\text{, where }
 \phi(x,u)=\begin{cases}\frac{x^2}{u},&\ \text{if }u>0\\ 0&\ \text{if }u=x=0\\ \infty &\text{else} \end{cases}\enspace.\end{equation}
 \end{proposition}
 \begin{proof}
-We only have to consider the inner part of \eqref{eq:minmax}. Let $i_0\in\{1,\dots,n\}$ an index. We want to find the value at the optimum so we get
+We only have to consider the inner part of \eqref{eq:minmax}. Let $i_0\in\{1,\dots,n\}$ an index. We want to find the value at the optimum, we can calculate the first order conditions:
 \[ \frac{\partial}{\partial y_{i_0}} \sum_{i=1}^n x_iy_i -\frac{1}{2}\sum_{i=1}^n u_iy_i^2 = x_{i_0} - \frac{1}{2}2u_{i_0}y_{i_0}\enspace.\]
-At the optimum, equalizing to $0$, if $u_{i_0}>0$ we indeed get $\hat y_{i_0} = \frac{x_{i_0}}{u_{i_0}}$ and the other values are trivial in the other cases. Plugging-in the obtained value, we finally get the result for $u_i>0$ (the other cases are direct):
+At the optimum, equalizing to $0$, if $u_{i_0}>0$ we indeed get $\hat y_{i_0} = \frac{x_{i_0}}{u_{i_0}}$ and the other values are trivial in the other cases. Plugging-in the obtained value, we finally get the result for $u_i>0$ (the other cases are direct and the second derivative is indeed negative):
 \[\max_{y\in\RR^n}\left\{x'y - \frac{1}{2}\sum_{i=1}^nu_iy_i^2\right\} = \sum_{i=1}^nx_i \frac{x_i}{u_i} - \frac{1}{2}\sum_{i=1}^n u_i \frac{x_i^2}{u_i} = \frac{1}{2}\sum_{i=1}^n \frac{x_i^2}{u_i}\enspace.\]
 \end{proof}
 

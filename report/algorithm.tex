@@ -1,0 +1,45 @@
+\begin{figure}[H]
+    \center
+    
+    \begin{tikzpicture}[node distance=1.5cm,
+        every node/.style={fill=white, font=\sffamily}, align=center]
+      % Specification of nodes (position, etc.)
+      \node (start)[ activityStarts]{Input: $\alpha^2,\alpha^2, \beta^1 \beta^2\in \RR^n, \delta\in\RR$\\ $F=\sum_{i=1}^nF_j - \delta$};
+      \node (beginning)[process, below of=start]{
+      Init: $\Omega = \{1,\dots,n\}$\\ $\tilde\alpha=0$, $\tilde\beta=0$};
+      \node (while)[process, below of=beginning]{
+      While $\Omega\neq\emptyset$:\\
+      Pick randomly $p\in\Omega$\\
+      $F(\gamma_p)\leftarrow \tilde\alpha\gamma_p + \tilde\beta + \sum_{j\in\Omega}F_j(\gamma_p)$};
+      \node(pos)[process, below of=while, yshift=-1.5cm, xshift=-4cm]{
+      If $F(\gamma_p)>0$:\\
+      $A\leftarrow \{j\in\Omega\,|\, \gamma_j<\gamma_p\}$\\
+      $\tilde\alpha\leftarrow \tilde\alpha + \sum_{j\in\Omega\setminus A}\alpha_j^1$\\
+      $\tilde\beta \leftarrow \tilde\beta + \sum_{j\in \Omega\setminus A}\beta_j^1$\\
+      $\Omega\leftarrow A$};
+      \node(neg)[process, below of=while, yshift=-1.5cm, xshift=+4cm]{
+      If $F(\gamma_p)<0$:\\
+      $A\leftarrow \{j\in\Omega\,|\, \gamma_j>\gamma_p\}$\\
+      $\tilde\alpha\leftarrow \tilde\alpha + \sum_{j\in\Omega\setminus A}\alpha_j^2$\\
+      $\tilde\beta \leftarrow \tilde\beta + \sum_{j\in \Omega\setminus A}\beta_j^2$\\
+      $\Omega\leftarrow A$};
+      \node(end0)[startstop, below of=while, yshift=-1.5cm]{If $F(\gamma_p)=0$:\\ \textbf{Return}: $\eta^*=\gamma_p$};
+      \node(endwhile)[startstop, below of=end0, yshift=-.7cm]{
+      \textbf{Return:} $\eta^*=-\tilde\beta / \tilde\alpha$};
+      
+      % draw the lined
+      \draw[->] (start)   --  (beginning);
+      \draw[->] (beginning)   --  (while);
+      \draw[->] (while) -- (pos);
+      \draw[->] (while) -- (neg);
+      \draw[->, dotted, line width=2pt] (pos) --++ (0,3) --++ (while);
+      \draw[->, dotted, line width=2pt] (neg) --++ (0,3) --++ (while);
+      \draw[->] (while) -- (end0);
+      \draw[->] (while.north west) --++(3,0) -- node[right]{If $\Omega=\emptyset$} ++(6,0) |- (endwhile);
+    
+      \end{tikzpicture}
+      
+      \label{fig:algorand}
+      \caption{Diagram for the random search algorithm procedure.}
+      
+    \end{figure}
