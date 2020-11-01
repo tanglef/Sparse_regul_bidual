@@ -1,19 +1,15 @@
 import warnings
 from prox_computation import fista
 from utils import save_fig
-from sklearn.linear_model import LinearRegression
-import sys
 import os
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from scipy.sparse.construct import rand
 import seaborn as sns
 sns.set()
 path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(1, os.path.join(path, ".."))  # to find utils from draft
 params = {'axes.labelsize': 18,
           'font.size': 16,
           'legend.fontsize': 'xx-large',

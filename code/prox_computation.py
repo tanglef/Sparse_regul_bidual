@@ -3,8 +3,7 @@ Compute the proximal operator.
 """
 
 import numpy as np
-from breakpoints import G
-from Rando_search import rando_search, norm_0, dichoto_h, u_i
+from Rando_search import norm_0, dichoto_h, u_i
 
 
 def prox_lambdSk(x, lambda_, k=15, eps=1e-7):

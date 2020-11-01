@@ -1,9 +1,8 @@
 """
-Try to implement the algorithm described for the randomized search.
+Implement the algorithm described for the randomized search.
 """
 
 import numpy as np
-import time
 
 
 def norm_0(x, better_storage=False, eps=1e-7):

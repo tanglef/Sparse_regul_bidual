@@ -7,9 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-import sys
 path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(1, os.path.join(path, "..")) # to find utils from draft
 from utils import save_fig
 sns.set()
 
