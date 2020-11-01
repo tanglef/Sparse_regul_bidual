@@ -92,8 +92,9 @@
 
 \section*{Introduction}
 
-The increasing................
+When working with a model, having interpretable results is most often necessary, but not always achievable with common methods. Especially when working with predictors, one can have a dataset with many features involved that prevents an easy explanation afterwards. An idea is to only select some variables from the ones available and discard the others. This can lead to more prediction error in some cases but overall better results. In cases where we know there is some kind of sparse structure involved, it can erase most of the noise. Such algorithm are the \lasso or the \enet. Here, Amir Beck and Yehonathan Refael \cite{beck} propose the sparse envelope method that resembles of the \enet, but take the sparsity into account through a penalty on the number of non-zero coefficients.
 
+We will first present this method, then see some needed theoretical results before examining a way to compute it efficiently and compare the \enet method to the sparse envelope on simulated data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sections of presentation
@@ -118,7 +119,7 @@ We note $C_k$ the space of the $k$-sparse vectors: $C_k := \{x\in\RR^n\,|\, \|x\
 
 % introduce LASSO and ENET
 One of the main advantages of the Tikhonov ($l_2$) regularization is the differentiability, the convexity and the continuity. With the $l_0$ norm, we lose them all. This lead to a compromise called the \lasso using the $l_1$ norm to keep the continuity and use sub-differentials instead of regular ones. The \lasso method will select some variables (depending on the value of $\lambda$) to explain the observed signal. It is very useful in a lot of situations like in genomics, but in situations with highly correlated groups of variables, the \lasso tends to only select one from each group and force the others to a null-effect as we can see on Figure \ref{fig:lasso_enet}. This issue lead to the development of the \enet method which uses a penalizer that is a combination of the Tikhonov and \lasso penalty
-\[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \lambda_1 \|x_1\| +  \frac{\lambda_2}{2}\|x\|^2_2\enspace.\]
+\[\min_{x\in\RR^n} \frac{1}{2}\|Ax-b\|^2_2 + \lambda_1 \|x\|_1 +  \frac{\lambda_2}{2}\|x\|^2_2\enspace.\]
 
 \begin{center}
     \begin{figure}[H]
@@ -162,7 +163,7 @@ We now need to find an efficient way to solve the inverse problem with this pena
 
 \section*{Conclusion}
 
-In conclusion, the biregularization method................
+In conclusion, the sparse envelope method improves the results of the \enet in the situation where the grouping effect takes place. The efficiency of the method used is that both the sparsity and grouping effect are taken into account, and both the function and proximal operator lead to a one dimensional search. It can be computed using the \textit{Random search} algorithm if we wish to have a fast and memory efficient method, but the bisector algorithm is also appliable. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

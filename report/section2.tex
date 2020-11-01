@@ -46,7 +46,9 @@ At the optimum, equalizing to $0$, if $u_{i_0}>0$ we indeed get $\hat y_{i_0} = 
 
 % expression for S_k(x)
 From there, it can be proved \cite{beck}, that if $\|x\|_0\leq k$ then $\mathcal{S}_k(x)=\|x\|_2^2 /2$. Otherwise, the expression depends on the root of a function defined as the sum of linear monotonous piecewise functions with a single breakpoint:
-\[g_x(\eta)=\sum_{i=1}^n \min\{\abs{x_i}\eta,1\} - k,\ \eta\geq 0\enspace.\]
+\begin{equation}\label{eq:applyalgofunc}
+g_x(\eta)=\sum_{i=1}^n \min\{\abs{x_i}\eta,1\} - k,\ \eta\geq 0\enspace.
+\end{equation}
 The general expression of $\mathcal{S}_k(x)$ is:
 \begin{equation}
     S_k(x)=\frac{1}{2}\sum_{i=1}^{N_x} x_{\langle i \rangle}^2 + \frac{1}{2(k- N_x)}\left(\sum_{i=N_x+1}^n\abs{x_{\langle i\rangle}}^2\right)^2\enspace,
