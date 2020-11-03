@@ -42,7 +42,7 @@ def make_data(n, sigma):
 
 A, b, x_true = make_data(50, .1)
 CV = 3
-alphas = np.logspace(np.log10(10), np.log10(1e-7),
+alphas = np.logspace(np.log10(40), np.log10(1e-7),
                      num=50)
 
 print("################# Finished LASSO")
@@ -63,8 +63,7 @@ index_lasso = np.where(alphas == alpha_CV)[0][0]
 # Elastic NET
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
-l1_ratio = np.logspace(np.log10(.99), np.log10(1e-4),
-                       num=20)
+l1_ratio = np.logspace(np.log10(.99), np.log10(1e-4), num=20)
 
 el_net = linear_model.ElasticNetCV(alphas=alphas, l1_ratio=l1_ratio,
                                    fit_intercept=False, normalize=False, cv=CV,
@@ -81,7 +80,6 @@ print("################# Finished Elastic-net")
 # Proximal Elastic-net
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 def choose_lambda(A, b, lambda_l, eps):
     err = []
     for lambda_ in lambda_l:
@@ -96,7 +94,7 @@ lambda_list = np.logspace(np.log10(.99), np.log10(1e-4),
                           num=20)
 lambda_best = choose_lambda(A, b, lambda_list, eps=1e-7)
 x_prox = fista(A, b, lambda_best, 500, 15, eps=1e-10)
-print("################# Finished Elastic-net biregularized")
+print("################# Finished Sparse Envelope")
 
 ###########################
 # Plot all signals together
@@ -120,6 +118,43 @@ plt.legend(fontsize='x-large', title_fontsize='20')
 plt.savefig(save_fig(path, "enet_proxi", "pdf"))
 plt.show()
 
+
+####################################
+# Plot the path of the coefficients
+# ----------------------------------
+
+def enet_plot(l1_ratio):
+    """Function plotting enet_path for some tuning parameter."""
+    _, theta_enet, _ = linear_model.enet_path(A,b, alphas=alphas, fit_intercept=False,
+                                 l1_ratio=l1_ratio, return_models=False)
+    fig1 = plt.figure(figsize=(12, 8))
+    ax1 = fig1.add_subplot(111)
+    ax1.plot(alphas, np.transpose(theta_enet), linewidth=3)
+    ax1.set_xscale('log')
+    ax1.set_xlabel(r"$\lambda$")
+    ax1.set_ylabel("Coefficient value")
+    ax1.set_ylim([-1, 5])
+    plt.savefig(save_fig(path, "enet_coeffs", "pdf"))
+    plt.show()
+    return theta_enet
+
+enet_plot(l1_cv_net)
+
+mat = np.ones((x_prox.shape[0], len(lambda_list)))
+for i in range(mat.shape[1]):
+    mat[:,i] = fista(A, b, lambda_list[i], 500, 15, eps=1e-10)
+
+fig1 = plt.figure(figsize=(12, 8))
+ax1 = fig1.add_subplot(111)
+plt.title("SE path")
+ax1.plot(lambda_list, np.transpose(mat), linewidth=3)
+ax1.set_xscale('log')
+ax1.set_xlabel(r"$\lambda$")
+ax1.set_ylabel("Coefficient value")
+ax1.set_ylim([-1, 5])
+plt.savefig(save_fig(path, "se_coeffs", "pdf"))
+plt.show()
+
 #####################################
 # Quantify the improvements
 # ----------------------------------
@@ -131,7 +166,7 @@ std_improve = []
 se_improve = []
 
 
-alphas = np.logspace(np.log10(10), np.log10(1e-7), num=50)
+alphas = np.logspace(np.log10(40), np.log10(1e-7), num=50)
 l1_ratio = np.logspace(np.log10(.99), np.log10(1e-4), num=20)
 lambda_list = np.array([.01 * 2 ** i for i in range(1, 16)])
 nb_rep = 2
