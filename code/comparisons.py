@@ -80,11 +80,11 @@ print("################# Finished Elastic-net")
 # Proximal Elastic-net
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def choose_lambda(A, b, lambda_l, eps):
+def choose_lambda(A, b, lambda_l, eps, k=15):
     err = []
     for lambda_ in lambda_l:
         A_train, A_test, b_train, b_test = train_test_split(A, b, test_size=.3)
-        reg = fista(A_train, b_train, lambda_, 500, 15, eps=eps)
+        reg = fista(A_train, b_train, lambda_, 500, k, eps=eps)
         b_pred = A_test @ reg
         err.append(((b_pred - b_test) ** 2).sum())
     return lambda_l[np.argmin(err)]
@@ -118,6 +118,28 @@ plt.legend(fontsize='x-large', title_fontsize='20')
 plt.savefig(save_fig(path, "enet_proxi", "pdf"))
 plt.show()
 
+
+#############################
+# A different value of k?
+# ---------------------------
+
+lambda_lower = choose_lambda(A, b, lambda_list, eps=1e-7, k=10)
+lambda_upper = choose_lambda(A, b, lambda_list, eps=1e-7, k=20)
+x_prox_lower = fista(A, b, lambda_lower, 500, k=10, eps=1e-10)
+x_prox_upper = fista(A, b, lambda_upper, 500, k=20, eps=1e-10)
+
+fig = plt.figure(figsize=(15, 10))
+ax = fig.add_subplot(111)
+ax.plot(x_true, label="True signal k=15")
+ax.plot(x_prox, '-', label="Proximal k=15")
+ax.plot(x_prox_lower, '-', label="Proximal k=10")
+ax.plot(x_prox_upper, '-', label="Proximal k=20")
+
+plt.legend(fontsize='x-large', title_fontsize='20')
+plt.savefig(save_fig(path, "proxi_diff_k", "pdf"))
+plt.show()
+
+print("#### Finished seeing different k.")
 
 ####################################
 # Plot the path of the coefficients
