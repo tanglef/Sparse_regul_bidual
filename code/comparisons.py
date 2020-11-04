@@ -114,7 +114,7 @@ ax = fig.add_subplot(111)
 ax.plot(x_true, label="True signal")
 ax.plot(x_enet[:, index_enet].reshape(-1), '-.', label="Elastic-Net")
 ax.plot(x_prox, '-', label="Proximal")
-plt.legend(fontsize='x-large', title_fontsize='20')
+plt.legend(fontsize='x-large', title_fontsize='20', loc=3)
 plt.savefig(save_fig(path, "enet_proxi", "pdf"))
 plt.show()
 
@@ -135,7 +135,7 @@ ax.plot(x_prox, '-', label="Proximal k=15")
 ax.plot(x_prox_lower, '-', label="Proximal k=10")
 ax.plot(x_prox_upper, '-', label="Proximal k=20")
 
-plt.legend(fontsize='x-large', title_fontsize='20')
+plt.legend(fontsize='x-large', title_fontsize='20', loc=3)
 plt.savefig(save_fig(path, "proxi_diff_k", "pdf"))
 plt.show()
 
