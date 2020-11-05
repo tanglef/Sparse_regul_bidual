@@ -40,12 +40,14 @@ def F_j(eta, x, j):
 
 
 def F(eta, alpha_t, beta_t, omega, x):  # eta is gamma_p in the algo
+    """F is the sum of the F_j"""
     res_Fj = [F_j(eta, x, j) for j in omega]
     sum_ = np.sum(res_Fj)
     return alpha_t * eta + beta_t + sum_
 
 
 def u_i(eta, x, lambda_, i, eps=1e-7):
+    """"Function u_i that comes into the function h and the root search."""
     if x[i] <= eps:
         return 0
 
@@ -58,11 +60,13 @@ def u_i(eta, x, lambda_, i, eps=1e-7):
 
 
 def h_eta(eta, x, k, lambda_):
+    """Function to find the root of to compute the proximal operator."""
     sum_ = np.sum([u_i(eta, x, lambda_, i) for i in range(len(x))])
     return sum_ - k
 
 
 def dichoto_h(x, lambda_, k, eps):
+    """Simple bisector method to find the root of the function h."""
     _, x_sp = norm_0(x, better_storage=True)
     binf = lambda_ / np.max(np.abs(x_sp))
     bsup = (lambda_ + 1) / np.abs(np.min(x_sp))
@@ -78,6 +82,10 @@ def dichoto_h(x, lambda_, k, eps):
 
 
 def rando_search(x, alpha_1, alpha_2, beta_1, beta_2, gamma, delta, func=F, best_store=True):
+    """More elaborate and efficient method to find the root of a monotonuous function
+    defined as the sum of piecewise linear functions with a single breakpoint.
+    
+    Computed here for example, but not used in the main algorithm."""
     a_tilde = 0
     b_tilde = - delta
     norm0, x = norm_0(x, better_storage=best_store)

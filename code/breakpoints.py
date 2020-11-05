@@ -20,6 +20,7 @@ def G2(x, m, beta):
 
 
 def G(x, m, n, split):
+    """The piecewise linear function with 2 breakpoints."""
     alpha = - n / m
     beta = (1 - n) / m
     if split:
