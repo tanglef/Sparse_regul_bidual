@@ -13,7 +13,7 @@ Let $f$ be a real function, its proximal operator (or Moreau's proximal operator
 \[\forall x\in\EE,\ \prox_f(x) =\arg\min_{u\in \EE}\left\{f(u) + \frac{1}{2}\|u-x\|^2_2\right\}\enspace.\] 
 \end{definition}
 
-This can be either a set of multiple elements, an empty set or a singleton. In our case, the following lemma and theorem assure that $\abs{\prox_{\mathcal{S}(x)}} = 1$. The proof is available in \cite{beck}.
+This can be either a set of multiple elements, an empty set or a singleton. In our case, the following lemma and theorem assure that $\abs{\prox_{\mathcal{S}}(x)} = 1$. The proof is available in \cite{beck}.
 
 % S_k is closed => needed for the singleton of prox
 \begin{lemma}
@@ -23,7 +23,7 @@ The sparse envelope $\mathcal{S}_k$ is closed \emph{ie} for all $y \in \RR,\ \le
 For a proper closed convex function $f$, $\abs{\prox_f(x)} = 1$ for all $x\in\EE$.
 \end{theorem}
 
-When solving an inverse problem, as we saw with the ridge penalty or \enet, there is an hyperparameter multiplying the penalty factor. Let's note it $\lambda_s>0$ for the sparse envelope. Then theorem \ref{thm:unicityprox} still holds and there is an almost explicit formulation for the value of $\prox_{\lambda\mathcal{S}_k}$.
+When solving an inverse problem, as we saw with the ridge penalty or \enet, there is an hyperparameter multiplying the penalty factor. Let's note it $\lambda>0$ for the sparse envelope. Then theorem \ref{thm:unicityprox} still holds and there is an almost explicit formulation for the value of $\prox_{\lambda\mathcal{S}_k}$.
 
 % form for the \lambda prox_k(x) with u_i 
 \begin{proposition}\label{prop:wlambdaS}
@@ -85,7 +85,7 @@ To find the root of a function defined as the sum of piecewise linear functions 
 This algorithm exploits the fact that $F$ is monotonous and its continuity. We eject cases that are not possible \textit{ie} if for a value $\gamma_{i_0}$ the function is strictly positive, then all values over $\gamma_{i_0}$ will lead to a positive result. Then the root must be before $\gamma_{i_0}$. If a value in $\gamma$ leads to a null result, then it is the root. Otherwise, we apply the algorithm until no one is left and find ourselves finding the root of an affine function.
 
 \begin{remark}
-Note that this algorithm exploits the fact that the problem was reduced from finding a vector of dimension $n$ to finding the root of a function in one dimension. Besides, it is efficient with sparse vectors because of the choice of the $F_j$ functions in the sum. In the worse case, we find ourselves with a complexity of $\mathcal{O}(n)$ that does not depend on the size of an initial interval like the bisection method.
+Note that this algorithm exploits the fact that the problem was reduced from finding a vector of dimension $n$ to finding the root of a function in one dimension. Besides, it is efficient with sparse vectors because of the choice of the $F_j$ functions in the sum. In the worse case, we find ourselves with a complexity of $\mathcal{O}(n)$ that does not depend on the size of an initial interval like the bisector method.
 \end{remark}
 
 The problem is, the function $h$ defined in theorem \ref{thm:proxval} is the sum of piecewise linear functions with two breakpoints. So to use the \textit{Random search}, we need to decompose $h$ as the following lemma states.
@@ -98,11 +98,11 @@ We can decompose $h$ into the sum of at most $2n$ piecewise linear functions wit
 % Example of the soft threshold
 To understand this decomposition on a simpler function, we can look at $G\,:\,\RR\rightarrow\RR$:
 
-\[G(x)=\begin{cases} 0& \text{ if }x\leq 0,\\
-                    x & \text{ if }x\in]0,1[\\
-                    1 & \text{ if }x\geq 1\end{cases}\enspace.\]
+\[G(x)=\begin{cases} 0& \text{ if }x\leq 1,\\
+                    x & \text{ if }x\in]1,2[\\
+                    1 & \text{ if }x\geq 2\end{cases}\enspace.\]
 As represented in Figure \ref{fig:decomposition}, $G$ can be written as $\frac{1}{2}G_1 + \frac{1}{2}G_2$ taking
-\[G_1(x)=\abs{x} \quad\text{and}\quad G_2(x)=1-\abs{x-1}\enspace.\]
+\[G_1(x)=\abs{x-1} \quad\text{and}\quad G_2(x)=1-\abs{x-2}\enspace.\]
 % figure for decomposition into sum of single-breakpoints
 \begin{figure}[H]
     \centering
@@ -135,7 +135,7 @@ The matrix $A$ is constructed from the algorithm that follows so that we can rec
 \begin{itemize}
 \setlength{\arraycolsep}{1pt} % resize matrices
     \item generate three random vectors $z_1,\ z_2$ and $z_3\in\RR^n$,
-    \item from $z_i$, compute $Z_i=\begin{bmatrix} z_i, & z_i, & z_i, & z_i, & z_i\end{bmatrix}\in\RR^{n\times 5}$,
+    \item from $z_i$, compute $Z_i=\begin{bmatrix} z_i, & z_i, & z_i, & z_i, & z_i\end{bmatrix}\in\RR^{n\times 5}$, $i\in\{1,2,3\}$,
     \item generate $B,\ C,\ D\in\RR^{n\times 5}$ and $E\in\RR^{n\times 25}$,
     \item $A=\begin{bmatrix}Z_1 + 0.01 W_1, & Z_2 + 0.01 W_2, & Z_3 + 0.01 W_3, & E \end{bmatrix}$.
 \end{itemize}
