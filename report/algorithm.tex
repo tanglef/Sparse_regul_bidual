@@ -1,6 +1,6 @@
 \begin{figure}[H]
     \center
-    
+
     \begin{tikzpicture}[node distance=1.5cm,
         every node/.style={fill=white, font=\sffamily}, align=center]
       % Specification of nodes (position, etc.)
@@ -26,7 +26,7 @@
       \node(end0)[startstop, below of=while, yshift=-1.5cm]{If $F(\gamma_p)=0$:\\ \textbf{Return}: $\eta^*=\gamma_p$};
       \node(endwhile)[startstop, below of=end0, yshift=-.7cm]{
       \textbf{Return:} $\eta^*=-\tilde\beta / \tilde\alpha$};
-      
+
       % draw the lined
       \draw[->] (start)   --  (beginning);
       \draw[->] (beginning)   --  (while);
@@ -36,10 +36,10 @@
       \draw[->, dotted, line width=2pt] (neg) --++ (0,3) --++ (while);
       \draw[->] (while) -- (end0);
       \draw[->] (while.north west) --++(3,0) -- node[right]{If $\Omega=\emptyset$} ++(6,0) |- (endwhile);
-    
+
       \end{tikzpicture}
-      
+
       \label{fig:algorand}
       \caption{Diagram for the random search algorithm procedure.}
-      
+
     \end{figure}
