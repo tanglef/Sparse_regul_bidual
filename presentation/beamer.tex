@@ -6,7 +6,7 @@
 	\usepackage[T1]{fontenc}
 	\usepackage{csquotes}
 
-	\usepackage[scaled]{beramono}  
+	\usepackage[scaled]{beramono}
 	\usepackage[scale=1.05]{AlegreyaSans}
 	\usepackage{beamer_shortcuts}
 	\usetikzlibrary{spy}
@@ -15,15 +15,15 @@
 
 	\title[Regularization via Bidualization] %shown at the top of frames
 	{Sparse Regularization via Bidualization} %shown in title frame
-	\subtitle{Based on the article of Amir Beck and Yehonathan Refael} 
-	
+	\subtitle{Based on the article of Amir Beck and Yehonathan Refael}
+
 	\date{October, 2020} %explicitly set date instead of \today
-	
+
 	\author[]%shown at the top of frames
 	{%shown in title frame
 		{Lefort Tanguy}%
 	}
-	
+
 	\institute[
 	]
 	{% is placed on the bottom of the title page
@@ -39,7 +39,7 @@
 	\begin{frame}{Content}{}
 		\tableofcontents
 	\end{frame}
-	
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%% Introduction %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,9 +69,9 @@ What we wish for a penalty:
 
     \begin{itemize}
         \item<1-> Tikhonov-Ridge regularization:    $\quad\|Ax-b\|^2 + \frac{\lambda}{2}\|x\|_2^2\enspace,$
-        \item<2-> LASSO:   
+        \item<2-> LASSO:
         $\quad\frac{1}{2}\|Ax-b\|^2_2 + \lambda \|x\|_1\enspace,$
-        \item<3-> Elastic-net:   
+        \item<3-> Elastic-net:
         $\quad\frac{1}{2}\|Ax-b\|^2_2 + \lambda_1 \|x\|_1 +  \frac{\lambda_2}{2}\|x\|^2_2\enspace.$
         \end{itemize}
         \begin{onlyenv}<4->
@@ -174,7 +174,7 @@ To find the value of $u_i$, we define $h(\eta)=\sum_{i=1}^n \mathbf{u_i}(\eta) -
 Then $u_i=\mathbf{u_i}(\tilde\eta)$, with $\tilde\eta$ defined such that $h(\tilde\eta)=0$.
 }
 \begin{itemize}
-    \item<2-> \color{red} Find the root of the sum of $n$ piecewise linear functions with two breakpoints $\Longrightarrow$ \textit{Random Search} algorithm or bisector method. 
+    \item<2-> \color{red} Find the root of the sum of $n$ piecewise linear functions with two breakpoints $\Longrightarrow$ \textit{Random Search} algorithm or bisector method.
 \end{itemize}
 \end{frame}
 
