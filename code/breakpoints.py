@@ -15,6 +15,7 @@ sns.set()
 def G1(x, m, alpha):
     return m * np.abs(x - alpha)
 
+
 def G2(x, m, beta):
     return 1 - m * np.abs(x - beta)
 
@@ -36,7 +37,7 @@ def G(x, m, n, split):
 
 if __name__ == "__main__":
     m, n = 1, -1
-    alpha, beta = - n / m, (1 - n) / m 
+    alpha, beta = - n / m, (1 - n) / m
     x = np.linspace(-2, 4, 100)
 
     Gx = [G(x_i, m, n, split=False) for x_i in x]

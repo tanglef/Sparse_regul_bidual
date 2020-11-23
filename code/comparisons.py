@@ -187,7 +187,6 @@ nb_tests = 10
 std_improve = []
 se_improve = []
 
-
 alphas = np.logspace(np.log10(40), np.log10(1e-7), num=50)
 l1_ratio = np.logspace(np.log10(.99), np.log10(1e-4), num=20)
 lambda_list = np.array([.01 * 2 ** i for i in range(1, 16)])
